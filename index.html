@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Momentum - Advanced Todo List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Login Screen (shown by default) -->
+    <div class="login-container" id="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="logo">
+                    <i class="fas fa-bolt"></i>
+                    <span>Momentum</span>
+                </div>
+                <h2>Sign in to your account</h2>
+                <p>Welcome back! Please enter your details</p>
+            </div>
+            
+            <form id="login-form">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" id="login-email" placeholder="name@company.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="login-password" placeholder="••••••••" required>
+                    <div class="password-toggle" id="password-toggle">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                </div>
+                
+                <div class="form-options">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="remember-me">
+                        <span class="checkmark"></span>
+                        Remember me
+                    </label>
+                    <a href="#" id="forgot-password">Forgot password?</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full">Sign in</button>
+                
+                <div class="login-footer">
+                    <p>Don't have an account? <a href="#" id="show-register">Sign up</a></p>
+                </div>
+            </form>
+            
+            <div class="social-login">
+                <div class="divider">
+                    <span>Or continue with</span>
+                </div>
+                <div class="social-buttons">
+                    <button class="btn btn-social">
+                        <i class="fab fa-google"></i>
+                    </button>
+                    <button class="btn btn-social">
+                        <i class="fab fa-facebook"></i>
+                    </button>
+                    <button class="btn btn-social">
+                        <i class="fab fa-github"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Register Screen -->
+    <div class="login-container" id="register-container" style="display: none;">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="logo">
+                    <i class="fas fa-bolt"></i>
+                    <span>Momentum</span>
+                </div>
+                <h2>Create your account</h2>
+                <p>Get started with your task management journey</p>
+            </div>
+            
+            <form id="register-form">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <input type="text" class="form-input" id="register-name" placeholder="John Doe" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" id="register-email" placeholder="name@company.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" id="register-password" placeholder="••••••••" required>
+                    <div class="password-toggle" id="register-password-toggle">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Confirm Password</label>
+                    <input type="password" class="form-input" id="register-confirm-password" placeholder="••••••••" required>
+                </div>
+                
+                <div class="form-options">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="terms-agree" required>
+                        <span class="checkmark"></span>
+                        I agree to the <a href="#">Terms and Conditions</a>
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+                
+                <div class="login-footer">
+                    <p>Already have an account? <a href="#" id="show-login">Sign in</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Forgot Password Screen -->
+    <div class="login-container" id="forgot-password-container" style="display: none;">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="logo">
+                    <i class="fas fa-bolt"></i>
+                    <span>Momentum</span>
+                </div>
+                <h2>Reset your password</h2>
+                <p>Enter your email address and we'll send you instructions to reset your password.</p>
+            </div>
+            
+            <form id="forgot-password-form">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <input type="email" class="form-input" id="reset-email" placeholder="name@company.com" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full">Send Reset Instructions</button>
+                
+                <div class="login-footer">
+                    <p><a href="#" id="back-to-login">Back to sign in</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Application (hidden until logged in) -->
+    <div class="container" id="app-container" style="display: none;">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-bolt"></i>
+                <span>Momentum</span>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-title">Views</div>
+                <div class="nav-item active" data-view="list">
+                    <i class="fas fa-list"></i>
+                    <span>List View</span>
+                </div>
+                <div class="nav-item" data-view="board">
+                    <i class="fas fa-table-cells"></i>
+                    <span>Board View</span>
+                </div>
+                <div class="nav-item" data-view="calendar">
+                    <i class="fas fa-calendar"></i>
+                    <span>Calendar</span>
+                </div>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-title">Filters</div>
+                <div class="nav-item" data-filter="important">
+                    <i class="fas fa-star"></i>
+                    <span>Important</span>
+                </div>
+                <div class="nav-item" data-filter="today">
+                    <i class="fas fa-clock"></i>
+                    <span>Today</span>
+                </div>
+                <div class="nav-item" data-filter="upcoming">
+                    <i class="fas fa-calendar-day"></i>
+                    <span>Upcoming</span>
+                </div>
+                <div class="nav-item" data-filter="completed">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Completed</span>
+                </div>
+            </div>
+            
+            <div class="nav-section">
+                <div class="nav-title">Settings</div>
+                <div class="nav-item" id="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark Mode</span>
+                </div>
+                <div class="nav-item" id="settings-btn">
+                    <i class="fas fa-sliders"></i>
+                    <span>Settings</span>
+                </div>
+            </div>
+            
+            <div class="nav-section" style="margin-top: auto;">
+                <div class="nav-item" id="profile-btn">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </div>
+                <div class="nav-item" id="logout-btn">
+                    <i class="fas fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="header">
+                <h1 class="page-title">Today's Tasks</h1>
+                <div class="header-actions">
+                    <button class="btn-icon" id="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <button class="btn-icon" id="filter-btn">
+                        <i class="fas fa-filter"></i>
+                    </button>
+                    <button class="btn btn-primary" id="add-task-btn">
+                        <i class="fas fa-plus"></i>
+                        <span>Add Task</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Search Bar (Hidden by default) -->
+            <div class="search-bar" id="search-bar" style="display: none;">
+                <input type="text" placeholder="Search tasks..." id="search-input">
+                <button class="btn-icon" id="close-search">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <!-- Filter Bar (Hidden by default) -->
+            <div class="filter-bar" id="filter-bar" style="display: none;">
+                <div class="filter-group">
+                    <label>Priority</label>
+                    <select id="filter-priority">
+                        <option value="all">All Priorities</option>
+                        <option value="high">High Priority</option>
+                        <option value="medium">Medium Priority</option>
+                        <option value="low">Low Priority</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label>Category</label>
+                    <select id="filter-category">
+                        <option value="all">All Categories</option>
+                        <option value="work">Work</option>
+                        <option value="personal">Personal</option>
+                        <option value="health">Health</option>
+                        <option value="shopping">Shopping</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label>Status</label>
+                    <select id="filter-status">
+                        <option value="all">All Statuses</option>
+                        <option value="completed">Completed</option>
+                        <option value="incomplete">Incomplete</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label>Sort By</label>
+                    <select id="filter-sort">
+                        <option value="dueDate">Due Date</option>
+                        <option value="priority">Priority</option>
+                        <option value="title">Title</option>
+                        <option value="created">Date Created</option>
+                    </select>
+                </div>
+                
+                <div class="filter-actions">
+                    <button class="btn" id="apply-filters">Apply Filters</button>
+                    <button class="btn btn-primary" id="clear-filters">Clear Filters</button>
+                </div>
+            </div>
+            
+            <!-- Stats Overview -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-title">Total Tasks</div>
+                    <div class="stat-value" id="total-tasks">0</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span id="total-change">0 from yesterday</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Completed</div>
+                    <div class="stat-value" id="completed-tasks">0</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span id="completion-rate">0% completion rate</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Overdue</div>
+                    <div class="stat-value" id="overdue-tasks">0</div>
+                    <div class="stat-change negative">
+                        <i class="fas fa-arrow-down"></i>
+                        <span>Need attention</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">Productivity</div>
+                    <div class="stat-value" id="productivity">0%</div>
+                    <div class="stat-change positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>Good this week</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- View Switcher -->
+            <div class="view-switcher">
+                <button class="view-btn active" data-view="list">
+                    <i class="fas fa-list"></i>
+                    <span>List</span>
+                </button>
+                <button class="view-btn" data-view="grid">
+                    <i class="fas fa-grip"></i>
+                    <span>Grid</span>
+                </button>
+                <button class="view-btn" data-view="stats">
+                    <i class="fas fa-chart-simple"></i>
+                    <span>Stats</span>
+                </button>
+            </div>
+            
+            <!-- Task List -->
+            <div class="task-list" id="task-list">
+                <!-- Tasks will be dynamically added here -->
+            </div>
+            
+            <!-- Board View (Hidden by default) -->
+            <div class="board-view" id="board-view" style="display: none;">
+                <div class="board-column">
+                    <h3>To Do</h3>
+                    <div class="board-tasks" id="todo-column">
+                        <!-- To Do tasks will be added here -->
+                    </div>
+                </div>
+                <div class="board-column">
+                    <h3>In Progress</h3>
+                    <div class="board-tasks" id="progress-column">
+                        <!-- In Progress tasks will be added here -->
+                    </div>
+                </div>
+                <div class="board-column">
+                    <h3>Completed</h3>
+                    <div class="board-tasks" id="completed-column">
+                        <!-- Completed tasks will be added here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Calendar View (Hidden by default) -->
+            <div class="calendar-view" id="calendar-view" style="display: none;">
+                <div class="calendar-header">
+                    <button class="btn-icon" id="prev-month">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <h2 id="calendar-month-year">January 2023</h2>
+                    <button class="btn-icon" id="next-month">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="calendar-weekdays">
+                    <div>Sun</div>
+                    <div>Mon</div>
+                    <div>Tue</div>
+                    <div>Wed</div>
+                    <div>Thu</div>
+                    <div>Fri</div>
+                    <div>Sat</div>
+                </div>
+                <div class="calendar-days" id="calendar-days">
+                    <!-- Calendar days will be generated here -->
+                </div>
+            </div>
+            
+            <!-- Stats View (Hidden by default) -->
+            <div class="stats-view" id="stats-view" style="display: none;">
+                <h2>Task Statistics</h2>
+                <div class="chart-container">
+                    <canvas id="task-chart"></canvas>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Add Task Modal -->
+    <div class="modal-overlay" id="task-modal" style="display: none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Add New Task</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="task-form">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Task Title</label>
+                        <input type="text" class="form-input" id="task-title" placeholder="What needs to be done?">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-textarea" id="task-description" placeholder="Add details..."></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Due Date</label>
+                            <input type="date" class="form-input" id="task-date">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Time</label>
+                            <input type="time" class="form-input" id="task-time">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Priority</label>
+                            <select class="form-select" id="task-priority">
+                                <option value="low">Low Priority</option>
+                                <option value="medium" selected>Medium Priority</option>
+                                <option value="high">High Priority</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Category</label>
+                            <select class="form-select" id="task-category">
+                                <option value="personal">Personal</option>
+                                <option value="work" selected>Work</option>
+                                <option value="health">Health</option>
+                                <option value="shopping">Shopping</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" id="cancel-task">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="save-task">Add Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Task Modal -->
+    <div class="modal-overlay" id="edit-task-modal" style="display: none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Task</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="edit-task-form">
+                <div class="modal-body">
+                    <input type="hidden" id="edit-task-id">
+                    <div class="form-group">
+                        <label class="form-label">Task Title</label>
+                        <input type="text" class="form-input" id="edit-task-title" placeholder="What needs to be done?">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-textarea" id="edit-task-description" placeholder="Add details..."></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Due Date</label>
+                            <input type="date" class="form-input" id="edit-task-date">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Time</label>
+                            <input type="time" class="form-input" id="edit-task-time">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Priority</label>
+                            <select class="form-select" id="edit-task-priority">
+                                <option value="low">Low Priority</option>
+                                <option value="medium">Medium Priority</option>
+                                <option value="high">High Priority</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Category</label>
+                            <select class="form-select" id="edit-task-category">
+                                <option value="personal">Personal</option>
+                                <option value="work">Work</option>
+                                <option value="health">Health</option>
+                                <option value="shopping">Shopping</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" id="cancel-edit">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="update-task">Update Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Day Tasks Modal -->
+    <div class="modal-overlay" id="day-tasks-modal" style="display: none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="day-tasks-title">Tasks for January 1, 2023</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="day-tasks-list" id="day-tasks-list">
+                    <!-- Tasks for the selected day will be added here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="close-day-tasks">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div class="modal-overlay" id="profile-modal" style="display: none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">User Profile</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="profile-form">
+                <div class="modal-body">
+                    <div class="profile-header">
+                        <img src="https://placehold.co/100x100/E9ECEF/6C757D?text=User" alt="User Avatar" class="profile-avatar" id="profile-avatar-img">
+                        <h3 id="profile-name">User Name</h3>
+                        <p id="profile-email">user@example.com</p>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="profile-picture-input" class="form-label" id="profile-picture-label">Change Profile Picture</label>
+                        <input type="file" id="profile-picture-input" accept="image/*">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-input" id="profile-name-input" placeholder="Your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-input" id="profile-email-input" placeholder="Your email address" disabled>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Current Password</label>
+                        <input type="password" class="form-input" id="profile-current-password" placeholder="Enter current password to change">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">New Password</label>
+                        <input type="password" class="form-input" id="profile-new-password" placeholder="Enter new password">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Confirm New Password</label>
+                        <input type="password" class="form-input" id="profile-confirm-password" placeholder="Confirm new password">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" id="cancel-profile">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="save-profile">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal-overlay" id="settings-modal" style="display: none;">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Application Settings</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="settings-form">
+                <div class="modal-body">
+                    <div class="settings-section">
+                        <h3>Appearance</h3>
+                        <div class="form-group">
+                            <label class="form-label">Default View</label>
+                            <select class="form-select" id="setting-default-view">
+                                <option value="list">List View</option>
+                                <option value="board">Board View</option>
+                                <option value="calendar">Calendar View</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Start Page</label>
+                            <select class="form-select" id="setting-start-page">
+                                <option value="today">Today's Tasks</option>
+                                <option value="all">All Tasks</option>
+                                <option value="important">Important Tasks</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="setting-auto-dark">
+                                <span class="checkmark"></span>
+                                Auto Dark Mode (follow system)
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Notifications</h3>
+                        <div class="form-group">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="setting-task-reminders">
+                                <span class="checkmark"></span>
+                                Task Reminders
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="setting-daily-digest">
+                                <span class="checkmark"></span>
+                                Daily Digest Email
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="setting-overdue-alerts">
+                                <span class="checkmark"></span>
+                                Overdue Task Alerts
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Task Management</h3>
+                        <div class="form-group">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="setting-confirm-delete">
+                                <span class="checkmark"></span>
+                                Confirm Before Deleting Tasks
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="setting-auto-archive">
+                                <span class="checkmark"></span>
+                                Auto-archive Completed Tasks after 7 days
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Default Task Priority</label>
+                            <select class="form-select" id="setting-default-priority">
+                                <option value="low">Low</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-section">
+                        <h3>Data & Privacy</h3>
+                        <div class="form-group">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="setting-data-backup">
+                                <span class="checkmark"></span>
+                                Auto Backup Data
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="button" class="btn" id="export-data">Export Data</button>
+                            <button type="button" class="btn" id="import-data">Import Data</button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <button type="button" class="btn btn-danger" id="clear-data">Clear All Data</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" id="cancel-settings">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="save-settings">Save Settings</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="script.js"></script>
+</body>
+<footer class="app-footer">
+    <div class="footer-content">
+        <p>&copy; 2025 Momentum Todo App. All rights reserved to Sahil Biswas.</p>
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact</a>
+        </div>
+    </div>
+</footer>
+</html>
