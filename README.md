@@ -29,4 +29,5 @@ A feature-rich todo list application with authentication, task management, and m
 ## Live Demo
 
 
-[https://github.com/sahilbiswas12-sky/Momentum-todo-app.git]
+[https://sahilbiswas12-sky.github.io/Momentum-todo-app/]
+
